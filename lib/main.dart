@@ -8,7 +8,10 @@ void main(){
 class calc extends StatelessWidget{
   const calc({super.key});
   Widget build(BuildContext context){
-    return MaterialApp(home:Calculator());
+    return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    
+    home:Calculator());
   }
 }
 

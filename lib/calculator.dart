@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/main.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -20,6 +17,17 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
+  String formatAnswer(double ans) {
+    if (ans == ans.toInt()) {
+      return ans.toInt().toString(); // whole number
+    } else {
+      return ans
+          .toStringAsFixed(3)
+          .replaceAll(RegExp(r'0+$'), '')
+          .replaceAll(RegExp(r'\.$'), '');
+    }
+  }
+
   int precedence(String c) {
     if (c == '+' || c == '-') return 1;
     if (c == '*' || c == '/' || c == '%') return 2;
@@ -31,19 +39,19 @@ class _CalculatorState extends State<Calculator> {
     List<String> operator = [];
     for (int i = 0; i < exp.length; i++) {
       String c = exp[i];
-      if (RegExp(r'\d').hasMatch(c)) {
+      if (RegExp(r'[\d.]').hasMatch(c)) {
         String number = c;
 
-        // Collect consecutive digits
-        while (i + 1 < exp.length && RegExp(r'\d').hasMatch(exp[i + 1])) {
+        // Collect digits AND decimal point
+        while (i + 1 < exp.length && RegExp(r'[\d.]').hasMatch(exp[i + 1])) {
           number += exp[i + 1];
           i++;
         }
 
         operand.add(double.parse(number));
       } else {
-        while (operator.isNotEmpty &&
-            precedence(operator.last) >= precedence(c)) {
+        while (
+            operator.isNotEmpty && precedence(operator.last) >= precedence(c)) {
           String op = operator.removeLast();
           double b = operand.removeLast();
           double a = operand.removeLast();
@@ -90,13 +98,12 @@ class _CalculatorState extends State<Calculator> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${ANS}",
+                formatAnswer(ANS),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 50,
@@ -105,7 +112,6 @@ class _CalculatorState extends State<Calculator> {
               ),
             ),
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -172,7 +178,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Align(
@@ -203,7 +208,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Align(
@@ -237,7 +241,6 @@ class _CalculatorState extends State<Calculator> {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -265,7 +268,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -314,7 +316,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -348,7 +349,6 @@ class _CalculatorState extends State<Calculator> {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -376,7 +376,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -425,7 +424,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -459,7 +457,6 @@ class _CalculatorState extends State<Calculator> {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -487,7 +484,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -536,7 +532,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -570,7 +565,6 @@ class _CalculatorState extends State<Calculator> {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -598,7 +592,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
@@ -647,7 +640,6 @@ class _CalculatorState extends State<Calculator> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Align(
