@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
+
+
+
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -80,10 +84,23 @@ class _CalculatorState extends State<Calculator> {
       appBar: AppBar(
         title: Text("Calculator"),
         centerTitle: true,
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+        actions: [
+          IconButton(
+    icon: Icon(Icons.brightness_6),
+    onPressed: () {
+      themeNotifier.value =
+          themeNotifier.value == ThemeMode.dark
+              ? ThemeMode.light
+              : ThemeMode.dark;
+    },
+  ),
+        ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
       body: Column(
         children: [
           Padding(
@@ -98,7 +115,7 @@ class _CalculatorState extends State<Calculator> {
               cursorWidth: 2.5,
               cursorHeight: 75,
               style: TextStyle(
-                color: Colors.white,
+               color: Theme.of(context).textTheme.bodyLarge!.color,
                 fontSize: 50,
                 fontWeight: FontWeight.w200,
               ),
@@ -111,7 +128,7 @@ class _CalculatorState extends State<Calculator> {
               child: Text(
                 formatAnswer(ans),
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                   fontSize: 50,
                   fontWeight: FontWeight.w200,
                 ),
@@ -665,12 +682,7 @@ class _CalculatorState extends State<Calculator> {
                         });
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          83,
-                          180,
-                          255,
-                        ),
+                        backgroundColor: const Color.fromARGB(255, 12, 146, 156),
                       ),
                       child: Text(
                         "=",
