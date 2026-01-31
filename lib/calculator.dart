@@ -84,7 +84,7 @@ class _CalculatorState extends State<Calculator> {
             padding: const EdgeInsets.only(top: 100),
             child: TextField(
               controller: control,
-              readOnly: false,
+              readOnly: true,
               decoration: InputDecoration(border: InputBorder.none),
               textAlign: TextAlign.end,
               showCursor: true,
