@@ -10,11 +10,15 @@ class Calculator extends StatefulWidget {
 class _CalculatorState extends State<Calculator> {
   TextEditingController control = TextEditingController();
 
-  double ANS = 0;
+  double ans = 0;
   void autosol() {
-    setState(() {
-      ANS = double.parse(result(control.text));
-    });
+    try {
+      setState(() {
+        ans = double.parse(result(control.text));
+      });
+    } catch (e) {
+      ans = 0;
+    }
   }
 
   String formatAnswer(double ans) {
@@ -52,6 +56,7 @@ class _CalculatorState extends State<Calculator> {
       } else {
         while (
             operator.isNotEmpty && precedence(operator.last) >= precedence(c)) {
+          if (operand.length < 2) break;
           String op = operator.removeLast();
           double b = operand.removeLast();
           double a = operand.removeLast();
@@ -61,6 +66,7 @@ class _CalculatorState extends State<Calculator> {
       }
     }
     while (operator.isNotEmpty) {
+      if (operand.length < 2) return "0";
       String op = operator.removeLast();
       double b = operand.removeLast();
       double a = operand.removeLast();
@@ -103,7 +109,7 @@ class _CalculatorState extends State<Calculator> {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                formatAnswer(ANS),
+                formatAnswer(ans),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 50,
@@ -125,7 +131,7 @@ class _CalculatorState extends State<Calculator> {
                       onPressed: () {
                         control.text = "";
                         setState(() {
-                          ANS = 0;
+                          ans = 0;
                         });
                       },
                       style: TextButton.styleFrom(
@@ -156,10 +162,10 @@ class _CalculatorState extends State<Calculator> {
                     padding: const EdgeInsets.all(10.0),
                     child: TextButton(
                       onPressed: () {
-                        control.text = control.text.substring(
-                          0,
-                          control.text.length - 1,
-                        );
+                        if (control.text.isNotEmpty) {
+                          control.text = control.text
+                              .substring(0, control.text.length - 1);
+                        }
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromARGB(
@@ -627,7 +633,10 @@ class _CalculatorState extends State<Calculator> {
                     padding: const EdgeInsets.all(10.0),
                     child: TextButton(
                       onPressed: () {
-                        control.text += ".";
+                        String text = control.text;
+                        if (text.isEmpty || !text.endsWith('.')) {
+                          control.text += ".";
+                        }
                         autosol();
                       },
                       style: TextButton.styleFrom(backgroundColor: Colors.grey),
@@ -650,7 +659,11 @@ class _CalculatorState extends State<Calculator> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          ans = double.parse(result(control.text));
+                        });
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromARGB(
                           255,
