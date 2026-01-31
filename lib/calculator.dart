@@ -124,6 +124,9 @@ class _CalculatorState extends State<Calculator> {
                     child: TextButton(
                       onPressed: () {
                         control.text = "";
+                        setState(() {
+                          ANS = 0;
+                        });
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromARGB(
